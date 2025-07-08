@@ -1,56 +1,39 @@
 # pyproject.toml
 
-[project]
-# --- 基本元数据 ---
-name = "marktypist"
-version = "0.1.0"  # 我们从 0.1.0 开始
-description = "一个功能强大的 Markdown 和 Typst 双向转换器，致力于实现逻辑感知的高保真转换。"
-readme = "README.md"
-authors = [
-    { name = "Your Name", email = "your.email@example.com" }, # 请替换成你的信息
-]
-license = { text = "MIT" }
-requires-python = ">=3.8"
-classifiers = [
-    "Development Status :: 3 - Alpha",
-    "Intended Audience :: Developers",
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Topic :: Software Development :: Libraries :: Python Modules",
-    "Topic :: Text Processing :: Markup",
-]
-
-# --- 核心依赖 ---
-# 这些是运行 marktypist 所必需的包
-dependencies = [
-    "markdown-it-py>=3.0.0",
-    "mdit-py-plugins>=0.4.0", # 用于 GFM 表格等插件
-    "typer[all]>=0.9.0",     # 使用 [all] 安装完整的 Typer (带 shell completion)
-]
-
-# --- 项目 URL ---
-[project.urls]
-Homepage = "https://github.com/your-username/marktypist"  # 替换成你的仓库 URL
-Repository = "https://github.com/your-username/marktypist"
-
-# --- CLI 入口点 ---
-# 这会让 `pip install` 创建一个名为 `marktypist` 的可执行命令
-[project.scripts]
-marktypist = "marktypist.cli:app"
-
-# --- 可选依赖（用于开发）---
-# 使用 `pip install -e .[dev]` 来安装
-[project.optional-dependencies]
-dev = [
-    "pytest>=7.0.0", # 测试框架
-    "black>=23.0.0", # 代码格式化工具
-]
-
-# --- 构建系统配置 ---
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "marktypist"
+version = "0.0.1"
+authors = [
+    # 替换成你自己的信息
+    { name = "Your Name", email = "your.email@example.com" },
+]
+description = "一个功能强大的 Markdown 与 Typst 双向转换器"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Topic :: Text Processing :: Markup",
+]
+dependencies = [
+    "click ~= 8.1",               # 用于构建命令行接口。~=8.1 表示 >=8.1 且 <9.0
+    "markdown-it-py ~= 3.0.0",    # Markdown 解析器
+    "lark ~= 1.1.8",              # Typst 解析器生成工具
+    "linkify-it-py ~= 2.0.2",  # <--- 新增这一行
+]
+
+[project.optional-dependencies]
+# 开发环境依赖，包括测试工具
+dev = [
+    "pytest ~= 7.4",
+]
+
+[project.scripts]
+# 这行代码是关键，它创建了 'marktypist' 命令行命令
+marktypist = "marktypist.cli:cli"
