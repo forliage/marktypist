@@ -1,0 +1,2 @@
+[console_scripts]
+marktypist = marktypist.cli:app

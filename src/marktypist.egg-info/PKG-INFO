@@ -1,3 +1,32 @@
+Metadata-Version: 2.4
+Name: marktypist
+Version: 0.1.0
+Summary: 一个功能强大的 Markdown 和 Typst 双向转换器，致力于实现逻辑感知的高保真转换。
+Author-email: Your Name <your.email@example.com>
+License: MIT
+Project-URL: Homepage, https://github.com/your-username/marktypist
+Project-URL: Repository, https://github.com/your-username/marktypist
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Text Processing :: Markup
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: markdown-it-py>=3.0.0
+Requires-Dist: mdit-py-plugins>=0.4.0
+Requires-Dist: typer[all]>=0.9.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Dynamic: license-file
+
 # Marktypist: 下一代 Markdown 与 Typst 双向转换器
 
 ![Python Version](https://img.shields.io/badge/python-3.8+-blue.svg)
