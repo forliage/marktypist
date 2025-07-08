@@ -5,11 +5,13 @@ class TypstRenderer:
     遍历 UDM 树并将其渲染为 Typst 格式的字符串。
     """
     def render(self, document: Document) -> str:
-        if len(document.content) == 1:
-            return self._visit(document.content[0])
+        # 修正后的渲染入口点：不再对单个元素做特殊处理。
+        # 总是访问 Document 节点，让 visit_document 负责正确的连接。
+        # .strip() 可以在最后移除可能由顶层块连接产生的前后空白。
         return self._visit(document).strip()
 
     def _visit(self, node):
+        """根据节点的类型，动态调用对应的 visit_xxx 方法"""
         method_name = f"visit_{node.__class__.__name__.lower()}"
         visitor = getattr(self, method_name, self.visit_default)
         return visitor(node)
@@ -25,11 +27,9 @@ class TypstRenderer:
         return node.content
 
     def visit_bold(self, node: Bold) -> str:
-        # 正确：用 * 包裹
         return f"*{self._render_inline_content(node.content)}*"
 
     def visit_italic(self, node: Italic) -> str:
-        # 关键修正：必须用 _ 包裹
         return f"_{self._render_inline_content(node.content)}_"
 
     def visit_code(self, node: Code) -> str:
@@ -47,12 +47,17 @@ class TypstRenderer:
         return join_str.join(self._visit(item) for item in content)
 
     def visit_document(self, node: Document) -> str:
+        # Document 节点负责用两个换行符连接所有顶层块
         return self._render_block_content(node.content, join_str="\n\n")
 
     def visit_heading(self, node: Heading) -> str:
+        # 块级元素自身不带末尾换行
         return f"{'=' * node.level} {self._render_inline_content(node.content)}"
 
     def visit_paragraph(self, node: Paragraph) -> str:
+        # 如果一个段落只包含一个图片，那么它应该只渲染图片，而不是图片被包裹在段落中
+        if len(node.content) == 1 and isinstance(node.content[0], Image):
+            return self._visit(node.content[0])
         return self._render_inline_content(node.content)
 
     def visit_unorderedlist(self, node: UnorderedList) -> str:
